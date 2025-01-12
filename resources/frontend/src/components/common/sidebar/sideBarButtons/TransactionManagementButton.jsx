@@ -1,10 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router";
 
 const TransactionManagementButton = () => {
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+
+    const handleDropDownOpenClose = (isOpen) =>{
+        // console.log(isOpen)
+        if(!isOpen){
+            setIsDropDownOpen(true)
+            return
+        }
+        setIsDropDownOpen(false)
+    }
     return (
         <li>
-            <a href="#"
+            <Link
+                to="/add-income"
+                onClick = {() => handleDropDownOpenClose(isDropDownOpen)}
                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg
                     className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -15,9 +27,9 @@ const TransactionManagementButton = () => {
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Transaction Management</span>
 
-            </a>
+            </Link>
 
-            <ul className='py-2 space-y-4'>
+            <ul className= {isDropDownOpen ? 'py-2 space-y-4' : 'hidden'}>
                 <li className='ml-12'>
                     <Link to='/add-income'>Add Income</Link>
                 </li>

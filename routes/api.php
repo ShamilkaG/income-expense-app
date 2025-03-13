@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\IncomeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\IncomeController;
 
 Route::get('/test-api', function () {
     return response()->json([
-        'test'=>'test content'
+        'test'=>'test content',
     ]);
 });
 

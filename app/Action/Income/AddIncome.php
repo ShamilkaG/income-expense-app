@@ -16,7 +16,7 @@ class AddIncome
         ]);
 
         return [
-            "message" => "Income added successfully",
+            'message' => 'Income added successfully',
         ];
     }
 }

@@ -23,8 +23,8 @@ class IncomeFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'income_amount' =>['required','numeric','min:1'],
-            'income_category' =>['required','string'],
+            'income_amount' =>['required', 'numeric', 'min:1'],
+            'income_category' =>['required', 'string'],
         ];
     }
 }

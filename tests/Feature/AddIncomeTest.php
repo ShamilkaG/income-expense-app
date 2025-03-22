@@ -45,5 +45,32 @@ final class AddIncomeTest extends TestCase
 
     public function test_return_bad_response_when_income_amount_not_exists()
     {
+        // A - Arrange
+        // dummy data that we need to do the test
+
+        $income = Income::factory()->make([
+            'income_amount' => 0 ,
+        ])->toArray(); // came data input fields only
+
+
+        // A - Act / Action
+        // implement that we need to test part. (endpoint/class/function)
+        $response = $this->post('api/add-income', $income);
+//        dd($response->json());
+
+        // A - Assertion
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'status' ,
+            'errors'
+        ]);
+
+        $response->assertSimilarJson([
+            'status'  => 422,
+            'errors'  => [
+                'income_amount' => ['The income amount field must be at least 1.'],
+            ]
+        ]);
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class IncomeFormRequest extends FormRequest
 {
@@ -26,5 +29,15 @@ class IncomeFormRequest extends FormRequest
             'income_amount' =>['required', 'numeric', 'min:1'],
             'income_category' =>['required', 'string'],
         ];
+    }
+
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator|Validator $validator)
+    {
+        $response = response()->json([
+            'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+            'errors' => $validator->errors(),
+        ]);
+
+        throw new HttpResponseException($response);
     }
 }

@@ -1,6 +1,57 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from "axios";
+import {addNewIncome} from "../../../../utilities/api/income/incomeCreateAPI.js";
 
 const AddIncome = () => {
+    const [incomeDetails, setIncomeDetails] = useState({
+        income_amount: 0,
+        income_category: ''
+    })
+
+    const [message,setMessage  ] = useState('')
+    // const [errorMessage, setErrorMessage] = useState('')
+    const [isIncomeAmountEmptyField, setIsIncomeAmountEmptyField] = useState(false)
+    const [isIncomeCategoryEmptyField, setIsIncomeCategoryEmptyField] = useState(false)
+    const handleInputFieldsChange = (event ) => {
+        // console.log(event.target.value, event.target.name)
+
+        const {name, value} = event.target;
+        setIsIncomeAmountEmptyField(false)
+        setIsIncomeCategoryEmptyField(false)
+        // console.log(name, value)
+        setIncomeDetails((prevState)=>(
+            {...prevState, [name]: value}
+        ))
+    }
+    // console.log(incomeDetails)
+    const handleSubmit = async  (event) => {
+        event.preventDefault();
+
+        // console.log('working')
+        // await axios.post('http://127.0.0.1:8000/api/add-income',incomeDetails)
+        // console.log(incomeDetails)
+        // console.log(Object.values(incomeDetails))
+
+        if(!incomeDetails.income_amount ){
+            // console.log('test')
+            // setErrorMessage('Income amount required.')
+            setIsIncomeAmountEmptyField(true)
+            return
+        }
+
+        if(!incomeDetails.income_category){
+            setIsIncomeCategoryEmptyField(true)
+            return
+        }
+        const response = await addNewIncome(incomeDetails)
+        // console.log(response)
+        // const message = response.data
+        // console.log(message)
+        const {message} = response.data
+        // console.log(message)
+        setMessage(message)
+    }
+
     return (
         <div className="p-4 sm:ml-64">
             <div className="p-4 ">
@@ -23,32 +74,55 @@ const AddIncome = () => {
                     <section className="bg-white dark:bg-gray-900">
                         <div className="py-1 w-3/4 m-auto lg:py-16">
 
-                            <form action="#">
+                            {message && <div
+                                className="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                                role="alert">
+                                <svg className="shrink-0 inline w-4 h-4 me-3" aria-hidden="true"
+                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                </svg>
+                                <span className="sr-only">Info</span>
+                                <div>
+                                    <span className="font-medium">Success alert!</span>
+                                    {message}
+                                </div>
+                            </div>}
+
+
+                            <form onSubmit={handleSubmit}>
                                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                                     <div className="sm:col-span-2">
                                         <label htmlFor="income_amount"
-                                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Income amount</label>
+                                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Income
+                                            amount</label>
                                         <input type="number" name="income_amount" id="income_amount"
-                                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                               onChange={handleInputFieldsChange}
+                                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5"
                                                placeholder="Type income amount" required=""/>
+                                        {isIncomeAmountEmptyField && <div className="text-red-500 text-sm">Income amount required</div>}
+                                        {/*{errorMessage && <div className="text-red-500 text-sm">{errorMessage}</div>}*/}
                                     </div>
 
                                     <div>
-                                        <label htmlFor="category"
+                                    <label htmlFor="category"
                                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                         <select id="category"
-                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                name='income_category'
+                                                onChange={handleInputFieldsChange}
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 ">
                                             <option selected="">Select income</option>
                                             <option value="Salary">Salary</option>
                                             <option value="Side project">Side project</option>
                                             <option value="Youtube revenue">Youtube revenue</option>
                                         </select>
+                                        {isIncomeCategoryEmptyField && <div className="text-red-500 text-sm">Income category required</div>}
                                     </div>
 
                                 </div>
                                 <button type="submit"
-                                        className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-                                    Add product
+                                        className="mt-4 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                                    Add Income
                                 </button>
                             </form>
                         </div>

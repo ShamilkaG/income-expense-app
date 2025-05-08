@@ -3,7 +3,7 @@ import axios from "axios";
 import { addNewIncome } from "../../../../../utilities/api/income/IncomeCreateAPI.js";
 import FormSuccessAlert from "../../../../common/alert/FormSuccessAlert.jsx";
 import AddNewIncomeModal from "./AddNewIncomeModal.jsx";
-// import IncomeListTable from "./IncomeListTable.jsx";
+import IncomeListTable from "./IncomeListTable.jsx";
 
 const AddIncome = () => {
     const [incomeDetails, setIncomeDetails] = useState({
@@ -85,7 +85,7 @@ const AddIncome = () => {
                     </section>
                 </div>
                 <div className="mb-4 rounded bg-gray-50 dark:bg-gray-800">
-                    {/*<IncomeListTable />*/}
+                    <IncomeListTable />
                 </div>
             </div>
         </div>

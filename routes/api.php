@@ -13,3 +13,4 @@ Route::get('/test-api', function () {
 //
 //});
 Route::post('add-income', [IncomeController::class, 'addIncome']);
+Route::get('get-incomes', [IncomeController::class, 'getIncomes']);

@@ -1,6 +1,6 @@
 import MainDashboard from "./dashBoardComponents/MainDashboard.jsx";
 import {Route, Routes} from "react-router";
-import AddIncome from "./dashBoardComponents/transactionManagemet/AddIncome.jsx";
+import AddIncome from "./dashBoardComponents/transactionManagemet/income/AddIncome.jsx";
 import AddExpense from "./dashBoardComponents/transactionManagemet/AddExpense.jsx";
 
 const Dashboard = () => {

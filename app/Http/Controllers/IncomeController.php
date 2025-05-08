@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Action\Income\GetIncomes;
 use App\Models\Income;
 use Illuminate\Http\Request;
 use App\Action\Income\AddIncome;
@@ -37,5 +38,14 @@ class IncomeController extends Controller
 //            "message" => "Income added successfully",
 //        ]);
         return response()->json($addIncome($validatedIncomeDetails));
+    }
+
+    public function getIncomes(GetIncomes $getIncomes): JsonResponse
+    {
+//        return response()->json([
+//            'status' => '200',
+//            'all_incomes' => []
+//        ]);
+        return response()->json($getIncomes());
     }
 }
